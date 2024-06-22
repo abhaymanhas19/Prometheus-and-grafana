@@ -4,27 +4,44 @@ global:
 
 scrape_configs:    
 # for same VM where prometheus runnig with docker 
-  - job_name: 'system-metrics'
+  - job_name: 'Main-VM-system-metrics'
     static_configs:
       - targets:
           - 'node-exporter:9100'
+        labels:
+          vm: 'main-vm'
+          instance: 'VM1'
+          environment: 'production'
 
-  - job_name: 'django'
+
+  - job_name: 'Main-vm-django-metrics''
     metrics_path: '/metrics'
     static_configs:
       - targets:
           - 'backend-oneclickinsight:8000' 
+        labels:
+          vm: 'main-vm'
+          instance: 'VM1'
+          environment: 'production'
           
 #From different VM mertics    
   - job_name: 'Advance-vm-system-metrics'
     static_configs:
       - targets:
           - '20.106.168.41:9100'
+        labels:
+          vm: 'advance-vm'
+          instance: 'VM2'
+          environment: 'production'
 
   - job_name: 'Advance-vm-django-mertrics'
     metrics_path: '/metrics'
     static_configs:
       - targets:
           - '20.106.168.41:8000' 
+        labels:
+          vm: 'advance-vm'
+          instance: 'VM2'
+          environment: 'production'
 
 
