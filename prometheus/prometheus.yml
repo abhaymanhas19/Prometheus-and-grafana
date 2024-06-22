@@ -1,34 +1,30 @@
 global:
-  scrape_interval: 15s
-  evaluation_interval: 15s
+  scrape_interval: 10s
+  evaluation_interval: 10s
 
-scrape_configs:
-  - job_name: 'backend_chatbot'
-    metrics_path: /metrics
+scrape_configs:    
+# for same VM where prometheus runnig with docker 
+  - job_name: 'system-metrics'
     static_configs:
       - targets:
-          - 'backend-chatbot:8000'
-  
-  - job_name: 'backend_oneclickinsight'
-    metrics_path: /metrics
-    static_configs:
-      - targets:
-          - 'backend-oneclickinsight:8001'
-          
-  - job_name: 'node-exporter'
-    static_configs:
-      - targets:
-          - 'node_exporter:9100'
-          
-          
-          
-   # for gathering metrics from another VM where node exporter is running          
-scrape_configs:       
-  - job_name: 'node-exporter'
-    static_configs:
-      - targets:
-          - '20.127.242.189:9100'
+          - 'node-exporter:9100'
 
+  - job_name: 'django'
+    metrics_path: '/metrics'
+    static_configs:
+      - targets:
+          - 'backend-oneclickinsight:8000' 
+          
+#From different VM mertics    
+  - job_name: 'Advance-vm-system-metrics'
+    static_configs:
+      - targets:
+          - '20.106.168.41:9100'
 
+  - job_name: 'Advance-vm-django-mertrics'
+    metrics_path: '/metrics'
+    static_configs:
+      - targets:
+          - '20.106.168.41:8000' 
 
 
